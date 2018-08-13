@@ -4,8 +4,11 @@ build
 .gradle
 eclipse-collections-kata-parent.userlibraries
 eclipse-collections-kata.userlibraries
+eclipse-collections-kata.iml
+pet-kata/pet-kata.iml
+company-kata/company-kata.iml
 gradle.prefs
-.idea/workspace.xml
+.idea
 bin
 .settings
 .classpath

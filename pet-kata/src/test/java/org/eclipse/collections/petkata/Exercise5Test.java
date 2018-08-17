@@ -19,6 +19,7 @@ import org.eclipse.collections.api.PrimitiveIterable;
 import org.eclipse.collections.api.list.MutableList;
 import org.eclipse.collections.api.partition.list.PartitionMutableList;
 import org.eclipse.collections.api.set.primitive.MutableIntSet;
+import org.eclipse.collections.impl.factory.Lists;
 import org.eclipse.collections.impl.factory.Sets;
 import org.eclipse.collections.impl.factory.primitive.IntSets;
 import org.eclipse.collections.impl.list.mutable.FastList;
@@ -69,19 +70,19 @@ public class Exercise5Test extends PetDomainForKata
     public void refactorToEclipseCollections()
     {
         // Replace List and ArrayList with Eclipse Collections types
-        FastList<Person> people = FastList.newList();
-        people.add(new Person("Mary", "Smith").addPet(PetType.CAT, "Tabby", 2));
-        people.add(new Person("Bob", "Smith")
+        MutableList<Person> people = Lists.mutable.with(
+        new Person("Mary", "Smith").addPet(PetType.CAT, "Tabby", 2),
+        new Person("Bob", "Smith")
                 .addPet(PetType.CAT, "Dolly", 3)
-                .addPet(PetType.DOG, "Spot", 2));
-        people.add(new Person("Ted", "Smith").addPet(PetType.DOG, "Spike", 4));
-        people.add(new Person("Jake", "Snake").addPet(PetType.SNAKE, "Serpy", 1));
-        people.add(new Person("Barry", "Bird").addPet(PetType.BIRD, "Tweety", 2));
-        people.add(new Person("Terry", "Turtle").addPet(PetType.TURTLE, "Speedy", 1));
-        people.add(new Person("Harry", "Hamster")
+                .addPet(PetType.DOG, "Spot", 2),
+        new Person("Ted", "Smith").addPet(PetType.DOG, "Spike", 4),
+        new Person("Jake", "Snake").addPet(PetType.SNAKE, "Serpy", 1),
+        new Person("Barry", "Bird").addPet(PetType.BIRD, "Tweety", 2),
+        new Person("Terry", "Turtle").addPet(PetType.TURTLE, "Speedy", 1),
+        new Person("Harry", "Hamster")
                 .addPet(PetType.HAMSTER, "Fuzzy", 1)
-                .addPet(PetType.HAMSTER, "Wuzzy", 1));
-        people.add(new Person("John", "Doe"));
+                .addPet(PetType.HAMSTER, "Wuzzy", 1),
+        new Person("John", "Doe"));
 
         // Replace Set and HashSet with Eclipse Collections types
         MutableIntSet petAges = people.flatCollect(Person::getPets).collectInt(Pet::getAge).toSet();

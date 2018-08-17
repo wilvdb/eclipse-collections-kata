@@ -15,11 +15,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.collections.api.PrimitiveIterable;
+import org.eclipse.collections.api.list.MutableList;
 import org.eclipse.collections.api.partition.list.PartitionMutableList;
 import org.eclipse.collections.api.set.primitive.MutableIntSet;
 import org.eclipse.collections.impl.factory.Sets;
 import org.eclipse.collections.impl.factory.primitive.IntSets;
+import org.eclipse.collections.impl.list.mutable.FastList;
+import org.eclipse.collections.impl.stream.PrimitiveStreams;
 import org.eclipse.collections.impl.test.Verify;
+import org.eclipse.collections.impl.tuple.primitive.PrimitiveTuples;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,7 +33,7 @@ public class Exercise5Test extends PetDomainForKata
     @Test
     public void partitionPetAndNonPetPeople()
     {
-        PartitionMutableList<Person> partitionMutableList = null;
+        PartitionMutableList<Person> partitionMutableList = this.people.partition(p -> !p.getPets().isEmpty());
         Verify.assertSize(7, partitionMutableList.getSelected());
         Verify.assertSize(1, partitionMutableList.getRejected());
     }
@@ -36,7 +41,7 @@ public class Exercise5Test extends PetDomainForKata
     @Test
     public void getOldestPet()
     {
-        Pet oldestPet = null;
+        Pet oldestPet = this.people.flatCollect(Person::getPets).maxBy(Pet::getAge);
         Assert.assertEquals(PetType.DOG, oldestPet.getType());
         Assert.assertEquals(4, oldestPet.getAge());
     }
@@ -44,7 +49,7 @@ public class Exercise5Test extends PetDomainForKata
     @Test
     public void getAveragePetAge()
     {
-        double averagePetAge = 0;
+        double averagePetAge = this.people.flatCollect(Person::getPets).collectInt(Pet::getAge).average();
         Assert.assertEquals(1.8888888888888888, averagePetAge, 0.00001);
     }
 
@@ -53,6 +58,10 @@ public class Exercise5Test extends PetDomainForKata
     {
         // Hint: Use petAges as a target collection
         MutableIntSet petAges = IntSets.mutable.with(5);
+        petAges.with(1);
+        petAges.with(2);
+        petAges.with(3);
+        petAges.with(4);
         Assert.assertEquals(IntSets.mutable.with(1, 2, 3, 4, 5), petAges);
     }
 
@@ -60,7 +69,7 @@ public class Exercise5Test extends PetDomainForKata
     public void refactorToEclipseCollections()
     {
         // Replace List and ArrayList with Eclipse Collections types
-        List<Person> people = new ArrayList<>();
+        FastList<Person> people = FastList.newList();
         people.add(new Person("Mary", "Smith").addPet(PetType.CAT, "Tabby", 2));
         people.add(new Person("Bob", "Smith")
                 .addPet(PetType.CAT, "Dolly", 3)
@@ -75,18 +84,9 @@ public class Exercise5Test extends PetDomainForKata
         people.add(new Person("John", "Doe"));
 
         // Replace Set and HashSet with Eclipse Collections types
-        Set<Integer> petAges = new HashSet<>();
-        for (Person person : people)
-        {
-            for (Pet pet : person.getPets())
-            {
-                petAges.add(pet.getAge());
-            }
-        }
+        MutableIntSet petAges = people.flatCollect(Person::getPets).collectInt(Pet::getAge).toSet();
 
         //extra bonus - convert to a primitive collection
-        Assert.assertEquals("Extra Credit - convert to a primitive collection", Sets.mutable.with(1, 2, 3, 4), petAges);
-
-        Assert.fail("Refactor to Eclipse Collections");
+        Assert.assertEquals("Extra Credit - convert to a primitive collection", IntSets.mutable.with(1, 2, 3, 4), petAges);
     }
 }

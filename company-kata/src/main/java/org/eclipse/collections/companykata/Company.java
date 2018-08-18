@@ -96,6 +96,6 @@ public class Company
      */
     public Customer getCustomerNamed(String name)
     {
-        return this.customers.detect(Predicates.attributePredicate(Customer::getName, customerName -> name.equals(customerName)));
+        return this.customers.detect(Predicates.attributeEqual(Customer::getName, name));
     }
 }

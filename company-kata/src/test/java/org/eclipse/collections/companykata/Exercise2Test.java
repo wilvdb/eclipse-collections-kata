@@ -48,7 +48,7 @@ public class Exercise2Test extends CompanyDomainForKata
     @Test
     public void customerFromLondonPredicate()
     {
-        Predicate<Customer> predicate = Predicates.attributePredicate(Customer::getCity, city -> "London".equals(city));
+        Predicate<Customer> predicate = Predicates.attributeEqual(Customer::getCity, "London");
         String predicateClass = predicate.getClass().getSimpleName();
         Assert.assertTrue(
                 "Solution should use Predicates.attributeEquals() or a lambda but used " + predicateClass,
@@ -64,35 +64,35 @@ public class Exercise2Test extends CompanyDomainForKata
     @Test
     public void doAnyCustomersLiveInLondon()
     {
-        boolean anyCustomersFromLondon = this.company.getCustomers().anySatisfy(Predicates.attributePredicate(Customer::getCity, city -> "London".equals(city)));
+        boolean anyCustomersFromLondon = this.company.getCustomers().anySatisfy(Predicates.attributeEqual(Customer::getCity, "London"));
         Assert.assertTrue(anyCustomersFromLondon);
     }
 
     @Test
     public void doAllCustomersLiveInLondon()
     {
-        boolean allCustomersFromLondon = this.company.getCustomers().allSatisfy(Predicates.attributePredicate(Customer::getCity, city -> "London".equals(city)));
+        boolean allCustomersFromLondon = this.company.getCustomers().allSatisfy(Predicates.attributeEqual(Customer::getCity, "London"));
         Assert.assertFalse(allCustomersFromLondon);
     }
 
     @Test
     public void howManyCustomersLiveInLondon()
     {
-        int numberOfCustomerFromLondon = this.company.getCustomers().count(Predicates.attributePredicate(Customer::getCity, city -> "London".equals(city)));
+        int numberOfCustomerFromLondon = this.company.getCustomers().count(Predicates.attributeEqual(Customer::getCity, "London"));
         Assert.assertEquals("Should be 2 London customers", 2, numberOfCustomerFromLondon);
     }
 
     @Test
     public void getLondonCustomers()
     {
-        MutableList<Customer> customersFromLondon = this.company.getCustomers().select(Predicates.attributePredicate(Customer::getCity, city -> "London".equals(city)));
+        MutableList<Customer> customersFromLondon = this.company.getCustomers().select(Predicates.attributeEqual(Customer::getCity, "London"));
         Verify.assertSize("Should be 2 London customers", 2, customersFromLondon);
     }
 
     @Test
     public void getCustomersWhoDontLiveInLondon()
     {
-        MutableList<Customer> customersNotFromLondon = this.company.getCustomers().reject(Predicates.attributePredicate(Customer::getCity, city -> "London".equals(city)));
+        MutableList<Customer> customersNotFromLondon = this.company.getCustomers().reject(Predicates.attributeEqual(Customer::getCity, "London"));
         Verify.assertSize("customers not from London", 1, customersNotFromLondon);
     }
 
@@ -102,7 +102,7 @@ public class Exercise2Test extends CompanyDomainForKata
     @Test
     public void getCustomersWhoDoAndDoNotLiveInLondon()
     {
-        PartitionMutableList<Customer> customers = this.company.getCustomers().partition(Predicates.attributePredicate(Customer::getCity, city -> "London".equals(city)));
+        PartitionMutableList<Customer> customers = this.company.getCustomers().partition(Predicates.attributeEqual(Customer::getCity, "London"));
         Verify.assertSize("Should be 2 London customers", 2, customers.getSelected());
         Verify.assertSize("customers not from London", 1, customers.getRejected());
     }

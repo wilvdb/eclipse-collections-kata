@@ -20,7 +20,6 @@ import org.eclipse.collections.api.list.MutableList;
 import org.eclipse.collections.api.list.primitive.MutableDoubleList;
 import org.eclipse.collections.impl.block.factory.Predicates;
 import org.eclipse.collections.impl.test.Verify;
-import org.eclipse.collections.impl.utility.ArrayIterate;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -106,7 +105,7 @@ public class Exercise6Test extends CompanyDomainForKata
     @Test
     public void supplierNamesAsTildeDelimitedString()
     {
-        String tildeSeparatedNames = ArrayIterate.collect(this.company.getSuppliers(), Supplier::getName).makeString("~");
+        String tildeSeparatedNames = this.company.getSuppliers().collect(Supplier::getName).makeString("~");
         Assert.assertEquals(
                 "tilde separated names",
                 "Shedtastic~Splendid Crocks~Annoying Pets~Gnomes 'R' Us~Furniture Hamlet~SFD~Doxins",

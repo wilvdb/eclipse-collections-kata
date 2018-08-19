@@ -14,6 +14,7 @@ import org.eclipse.collections.api.block.function.Function;
 import org.eclipse.collections.api.block.predicate.Predicate;
 import org.eclipse.collections.api.list.MutableList;
 import org.eclipse.collections.impl.block.factory.Predicates;
+import org.eclipse.collections.impl.factory.Lists;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
 /**
@@ -25,7 +26,7 @@ public class Company
     private final MutableList<Customer> customers = FastList.newList();
 
     // Suppliers are array based. Refactor to a MutableList<Supplier>
-    private Supplier[] suppliers = new Supplier[0];
+    private MutableList<Supplier> suppliers = Lists.mutable.empty();
 
     public Company(String name)
     {
@@ -70,13 +71,10 @@ public class Company
         // need to replace the current array of suppliers with another, larger array
         // Of course, normally one would not use an array.
 
-        Supplier[] currentSuppliers = this.suppliers;
-        this.suppliers = new Supplier[currentSuppliers.length + 1];
-        System.arraycopy(currentSuppliers, 0, this.suppliers, 0, currentSuppliers.length);
-        this.suppliers[this.suppliers.length - 1] = supplier;
+        this.suppliers.add(supplier);
     }
 
-    public Supplier[] getSuppliers()
+    public MutableList<Supplier> getSuppliers()
     {
         return this.suppliers;
     }

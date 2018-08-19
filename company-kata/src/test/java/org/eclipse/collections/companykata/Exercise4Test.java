@@ -48,7 +48,7 @@ public class Exercise4Test extends CompanyDomainForKata
     @Test
     public void findSupplierNames()
     {
-        MutableList<String> supplierNames = ArrayIterate.collect(this.company.getSuppliers(), Supplier::getName);
+        MutableList<String> supplierNames = this.company.getSuppliers().collect(Supplier::getName);
 
         MutableList<String> expectedSupplierNames = Lists.mutable.with(
                 "Shedtastic",
@@ -69,7 +69,7 @@ public class Exercise4Test extends CompanyDomainForKata
     public void countSuppliersWithMoreThanTwoItems()
     {
         Predicate<Supplier> moreThanTwoItems = s -> s.getItemNames().length > 2;
-        int suppliersWithMoreThanTwoItems = ArrayIterate.count(this.company.getSuppliers(), moreThanTwoItems);
+        int suppliersWithMoreThanTwoItems = this.company.getSuppliers().count(moreThanTwoItems);
         Assert.assertEquals("suppliers with more than 2 items", 5, suppliersWithMoreThanTwoItems);
     }
 
@@ -83,7 +83,7 @@ public class Exercise4Test extends CompanyDomainForKata
         Predicate<Supplier> suppliesToaster = s -> ArrayIterate.anySatisfy(s.getItemNames(), name -> "sandwich toaster".equals(name));
 
         // Find one supplier that supplies toasters.
-        Supplier toasterSupplier = ArrayIterate.detect(this.company.getSuppliers(), suppliesToaster);
+        Supplier toasterSupplier = this.company.getSuppliers().detect(suppliesToaster);
         Assert.assertNotNull("toaster supplier", toasterSupplier);
         Assert.assertEquals("Doxins", toasterSupplier.getName());
     }
